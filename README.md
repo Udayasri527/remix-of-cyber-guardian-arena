@@ -41,7 +41,7 @@ Code
 ## ⚡ Getting Started
 
 ### 1. Clone the repo
-```bash
+
 git clone https://github.com/Udayasri527/remix-of-cyber-guardian-arena.git
 cd remix-of-cyber-guardian-arena
 ### 2. Install dependencies
