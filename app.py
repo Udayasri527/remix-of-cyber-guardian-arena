@@ -41,28 +41,9 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# --- Features Section with Icons ---
-col1, col2, col3 = st.columns(3)
-with col1:
-    st.image("https://img.icons8.com/fluency/96/controller.png", width=60)
-    st.subheader("🎮 Play")
-    st.write("Interactive cybersecurity quiz challenges.")
-with col2:
-    st.image("https://img.icons8.com/fluency/96/trophy.png", width=60)
-    st.subheader("🏆 Compete")
-    st.write("Earn points and climb the leaderboard.")
-with col3:
-    st.image("https://img.icons8.com/fluency/96/user-shield.png", width=60)
-    st.subheader("👤 Profile")
-    st.write("Track your progress and achievements.")
-
-st.markdown("---")
-st.success("👉 Use the sidebar to Login/Signup and start playing!")
-
 # --- Supabase Setup ---
 SUPABASE_URL = os.getenv("SUPABASE_URL", "https://nssdnrsscffhochlqhwd.supabase.co")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY", "sb_publishable_AvmyuXV-_NUugAKs3Ok4EQ_2w_66F-U")
-
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # --- Session State ---
@@ -70,6 +51,8 @@ if "user" not in st.session_state:
     st.session_state.user = None
 if "score" not in st.session_state:
     st.session_state.score = 0
+if "page" not in st.session_state:
+    st.session_state.page = None
 
 # --- Authentication ---
 def login(email, password):
@@ -122,17 +105,33 @@ def show_leaderboard():
     else:
         st.info("No scores yet.")
 
+# --- Homepage Features with Buttons ---
+col1, col2, col3 = st.columns(3)
+with col1:
+    if st.button("🎮 Play"):
+        st.session_state.page = "Play"
+with col2:
+    if st.button("🏆 Compete"):
+        st.session_state.page = "Leaderboard"
+with col3:
+    if st.button("👤 Profile"):
+        st.session_state.page = "Profile"
+
+st.markdown("---")
+st.success("👉 Use the sidebar to Login/Signup and start playing!")
+
 # --- Sidebar UI ---
 if st.session_state.user:
     st.sidebar.success(f"Logged in as {st.session_state.user.user.email}")
     choice = st.sidebar.radio("Menu", ["Play Game", "Leaderboard", "Logout"])
     if choice == "Play Game":
-        play_game()
+        st.session_state.page = "Play"
     elif choice == "Leaderboard":
-        show_leaderboard()
+        st.session_state.page = "Leaderboard"
     elif choice == "Logout":
         st.session_state.user = None
         st.session_state.score = 0
+        st.session_state.page = None
         st.sidebar.info("Logged out.")
 else:
     st.sidebar.header("Login / Signup")
@@ -142,3 +141,11 @@ else:
         login(email, password)
     if st.sidebar.button("Signup"):
         signup(email, password)
+
+# --- Page Routing ---
+if st.session_state.page == "Play":
+    play_game()
+elif st.session_state.page == "Leaderboard":
+    show_leaderboard()
+elif st.session_state.page == "Profile":
+    st.info("Profile page coming soon!")
