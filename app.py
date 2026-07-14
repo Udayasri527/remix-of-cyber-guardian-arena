@@ -220,4 +220,7 @@ else:
     if st.sidebar.button("Signup"):
         signup(email, password)
 
-#
+# --- Page Routing ---
+if st.session_state.page == "Play":
+    play_game()
+elif st.session_state.page == "Leaderboard":
