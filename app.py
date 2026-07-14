@@ -131,13 +131,14 @@ def show_leaderboard():
 
 
 # --- Homepage Features with Buttons ---
+# --- Homepage Features with Buttons ---
 col1, col2, col3 = st.columns(3)
 with col1:
     if st.button("🎮 Play"):
         st.session_state.page = "Play"
 with col2:
-    if st.button("🏆 Complete"):
-        st.session_state.page = "Leaderboard"
+    if st.button("⚔️ Compete"):   # ✅ fixed label
+        st.session_state.page = "Complete"
 with col3:
     if st.button("👤 Profile"):
         st.session_state.page = "Profile"
@@ -148,11 +149,15 @@ st.success("👉 Use the sidebar to Login/Signup and start playing!")
 # --- Sidebar UI ---
 if st.session_state.user:
     st.sidebar.success(f"Logged in as {st.session_state.user.user.email}")
-    choice = st.sidebar.radio("Menu", ["Play Game", "Leaderboard", "Logout"])
+    choice = st.sidebar.radio("Menu", ["Play Game", "Leaderboard", "Profile", "Complete", "Logout"])
     if choice == "Play Game":
         st.session_state.page = "Play"
     elif choice == "Leaderboard":
         st.session_state.page = "Leaderboard"
+    elif choice == "Profile":
+        st.session_state.page = "Profile"
+    elif choice == "Complete":
+        st.session_state.page = "Compete"
     elif choice == "Logout":
         st.session_state.user = None
         st.session_state.score = 0
@@ -173,7 +178,10 @@ if st.session_state.page == "Play":
 elif st.session_state.page == "Leaderboard":
     show_leaderboard()
 elif st.session_state.page == "Profile":
-    st.info("Profile page coming soon!")
+    show_profile()   # ✅ now calls your profile function
+elif st.session_state.page == "Complete":
+    show_complete()   # ✅ now calls your compete function
+
 
 def show_profile():
     st.header("👤 My Profile")
@@ -211,7 +219,7 @@ def show_profile():
 
     else:
         st.warning("You need to log in to view your profile.")
-def show_compete():
+def show_complete():
     st.header("⚔️ Compete")
 
     if st.session_state.user:
