@@ -230,3 +230,16 @@ else:
             st.sidebar.success("⚡ Logged in as testuser@example.com (fake user for testing)")
     if st.sidebar.button("Signup"):
         signup(email, password)
+
+# --- Page Routing ---
+if st.session_state.page == "Play":
+    play_game()
+elif st.session_state.page == "Leaderboard":
+    show_leaderboard()
+elif st.session_state.page == "Profile":
+    show_profile()
+elif st.session_state.page == "Compete":
+    show_compete()
+else:
+    # Default landing page (Hero + buttons)
+    st.info("👆 Choose Play, Compete, or Profile to get started!")
