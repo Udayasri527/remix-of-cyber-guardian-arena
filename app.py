@@ -224,19 +224,9 @@ else:
     email = st.sidebar.text_input("Email")
     password = st.sidebar.text_input("Password", type="password")
     if st.sidebar.button("Login"):
-        login(email, password)
+        if not login(email, password):
+            # 👇 Fake user for testing if login fails
+            st.session_state.user = type("obj", (object,), {"user": type("obj", (object,), {"email": "testuser@example.com"})})()
+            st.sidebar.success("⚡ Logged in as testuser@example.com (fake user for testing)")
     if st.sidebar.button("Signup"):
         signup(email, password)
-
-# --- Page Routing ---
-if st.session_state.page == "Play":
-    play_game()
-elif st.session_state.page == "Leaderboard":
-    show_leaderboard()
-elif st.session_state.page == "Profile":
-    show_profile()
-elif st.session_state.page == "Compete":
-    show_compete()
-else:
-    # Default landing page (Hero + buttons)
-    st.info("👆 Choose Play, Compete, or Profile to get started!")
