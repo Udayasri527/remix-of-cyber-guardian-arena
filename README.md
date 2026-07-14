@@ -65,14 +65,20 @@ Homepage with cyber background and glowing hero text
 Quiz interface
 
 Leaderboard view
+## 📸 Screenshots
+
+### Project Setup
+![Project Setup](assets/c:\users\udayasri\OneDrive\图片\Screenshots\Screenshot 2026-07-14 212454.png)
+
+### Quiz Page
+![Cyber Guardian Arena Quiz](assets/c:\Users\Udayasri\OneDrive\图片\play.png)
+
+### Profile Page
+![Profile Section](assets/c:\Users\Udayasri\OneDrive\图片\profile.png)
+
 
 📌 Roadmap
-Add Profile page with past scores
-
-Add more quiz questions
-
-Add animated particle effects for UI
-
+c:\Users\Udayasri\OneDrive\图片\demo.png
 👩‍💻 Author
 Udayasri — B.Tech Computer Science student
 [![GitHub](https://img.shields.io/badge/GitHub-Udayasri527-black?logo=github)](https://github.com/Udayasri527)
