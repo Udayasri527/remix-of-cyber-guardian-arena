@@ -175,7 +175,7 @@ elif st.session_state.page == "Leaderboard":
 elif st.session_state.page == "Profile":
     st.info("Profile page coming soon!")
 
-ddef show_profile():
+def show_profile():
     st.header("👤 My Profile")
 
     if st.session_state.user:
@@ -211,3 +211,38 @@ ddef show_profile():
 
     else:
         st.warning("You need to log in to view your profile.")
+def show_compete():
+    st.header("⚔️ Compete")
+
+    if st.session_state.user:
+        user_email = st.session_state.user.user.email
+
+        # Fetch all scores from Supabase
+        try:
+            data = supabase.table("scores").select("*").order("score", desc=True).execute()
+
+            if data and hasattr(data, "data") and data.data:
+                st.subheader("🏆 Global Leaderboard")
+                st.table(data.data)  # shows all players' scores
+
+                # Highlight current user's rank
+                user_scores = [row for row in data.data if row.get("email") == user_email]
+                if user_scores:
+                    best_score = max(row.get("score", 0) for row in user_scores)
+                    rank = next((i+1 for i, row in enumerate(data.data) if row.get("email") == user_email), None)
+
+                    st.markdown(f"🎯 **Your Best Score:** {best_score}")
+                    if rank:
+                        st.markdown(f"🥇 **Your Current Rank:** #{rank}")
+                else:
+                    st.info("You haven’t played yet. Play the quiz to join the competition!")
+
+            else:
+                st.info("No competition data yet. Be the first to play!")
+
+        except Exception as e:
+            st.error("⚠️ Unable to load competition details.")
+            st.caption(f"Debug info: {e}")
+
+    else:
+        st.warning("You need to log in to view competition results.")
