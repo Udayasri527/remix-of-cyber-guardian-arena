@@ -68,17 +68,19 @@ Leaderboard view
 ## 📸 Screenshots
 
 ### Project Setup
-![Project Setup](assets/c:\users\udayasri\OneDrive\图片\Screenshots\Screenshot 2026-07-14 212454.png)
+![Project Setup](assets/play.png)
 
 ### Quiz Page
-![Cyber Guardian Arena Quiz](assets/c:\Users\Udayasri\OneDrive\图片\play.png)
+![Cyber Guardian Arena Quiz](assets/profile.png)
 
 ### Profile Page
-![Profile Section](assets/c:\Users\Udayasri\OneDrive\图片\profile.png)
+![Profile Section](assets/game.png)
 
 
 📌 Roadmap
-c:\Users\Udayasri\OneDrive\图片\demo.png
+## 📌 Roadmap
+![Roadmap](assets/demo.png)
+
 👩‍💻 Author
 Udayasri — B.Tech Computer Science student
 [![GitHub](https://img.shields.io/badge/GitHub-Udayasri527-black?logo=github)](https://github.com/Udayasri527)
