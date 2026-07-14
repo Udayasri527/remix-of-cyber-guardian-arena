@@ -81,19 +81,32 @@ questions = [
 def play_game():
     st.header("🎮 Cyber Guardian Arena Quiz")
     st.session_state.score = 0
+
+    # Loop through all questions
     for i, q in enumerate(questions):
         st.write(f"Q{i+1}: {q['q']}")
-        choice = st.radio("Choose:", q["options"], key=f"q{i}")
+        choice = st.radio(
+            "Choose:",
+            q["options"],
+            index=None,   # <-- prevents auto-selection
+            key=f"q{i}"
+        )
         if choice == q["answer"]:
             st.session_state.score += 1
+
+    # Show final score
     st.success(f"Your score: {st.session_state.score}")
 
-    # Save score to Supabase
+    # Save score to Supabase if user is logged in
     if st.session_state.user:
-        supabase.table("scores").insert({
-            "email": st.session_state.user.user.email,
-            "score": st.session_state.score
-        }).execute()
+        try:
+            supabase.table("scores").insert({
+                "email": st.session_state.user.user.email,
+                "score": st.session_state.score
+            }).execute()
+        except Exception as e:
+            st.error("⚠️ Could not save score to Supabase.")
+            st.caption(f"Debug info: {e}")
 
 # --- Leaderboard ---
 def show_leaderboard():
@@ -161,3 +174,40 @@ elif st.session_state.page == "Leaderboard":
     show_leaderboard()
 elif st.session_state.page == "Profile":
     st.info("Profile page coming soon!")
+
+ddef show_profile():
+    st.header("👤 My Profile")
+
+    if st.session_state.user:
+        user_email = st.session_state.user.user.email
+
+        # Layout: avatar + email side by side
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            st.image(
+                "https://img.icons8.com/fluency/96/user-shield.png",  # cyber‑themed avatar
+                width=80
+            )
+        with col2:
+            st.write(f"**Email:** {user_email}")
+
+        # Fetch scores from Supabase
+        try:
+            data = supabase.table("scores").select("*").eq("email", user_email).order("created_at", desc=True).execute()
+
+            if data and hasattr(data, "data") and data.data:
+                st.subheader("📊 My Scores")
+                st.table(data.data)  # shows all past scores in a table
+
+                # Extra: show total games played
+                st.write(f"**Total Games Played:** {len(data.data)}")
+
+            else:
+                st.info("No scores recorded yet. Play the quiz to add your first score!")
+
+        except Exception as e:
+            st.error("⚠️ Unable to load profile details.")
+            st.caption(f"Debug info: {e}")
+
+    else:
+        st.warning("You need to log in to view your profile.")
