@@ -1,96 +1,78 @@
-# 🛡️ Cyber Guardian
+# 🛡️ Cyber Guardian Arena
 
-> An interactive **cybersecurity awareness platform** — built with **React, TypeScript, Vite, TailwindCSS, Supabase, and Radix UI**.
+An interactive gamified platform to teach **cybersecurity awareness** — built with Python, Streamlit, and Supabase.  
+Players can **log in, play quizzes, compete on the leaderboard, and track their progress** in a fun, engaging way.
 
-🔴 **[Live Demo](https://Udayasri527.github.io/Cyber-Guardian/)** &nbsp;|&nbsp; ⭐ Star this repo if you find it useful!
-
----
-
-## 📌 Overview
-
-Cyber Guardian is designed to **teach cybersecurity concepts through gamified scenarios**.  
-Players face challenges like phishing emails, social engineering, and IoT security risks, learning how to defend against them in a fun and interactive way.
-
-| Metric | Value |
-|--------|-------|
-| 🎮 Gameplay | Scenario‑based cybersecurity challenges |
-| 🔐 Auth | Supabase (login & profiles) |
-| 🎨 UI | TailwindCSS + Radix UI |
-| 🚀 Deployment | GitHub Pages |
+🔴 [Live Demo](https://cyber-guardian.streamlit.app) | ⭐ Star this repo if you find it useful!
 
 ---
 
-## ✨ Features
-
-- 📨 **Phishing Simulation** — Identify safe vs. malicious emails  
-- 🕵️ **Social Engineering Scenarios** — Learn how attackers trick users  
-- 🌐 **IoT Security Challenges** — Protect connected devices  
-- 📊 **Scoreboard & Leaderboard** — Track progress and compare with others  
-- 🔐 **User Authentication** — Secure login via Supabase  
-- 📱 **Responsive Design** — Works on desktop and mobile  
-
----
-
-## 🧠 How It Works
-User Login (Supabase)
-↓
-Choose Cybersecurity Scenario
-↓
-Play Interactive Challenge
-↓
-Scoreboard + Leaderboard Tracking
-↓
-Deploy via GitHub Pages
+## 🚀 Features
+- 🎮 **Play Quiz**: Answer cybersecurity questions and test your knowledge.
+- 🏆 **Leaderboard**: Compete with others and see top scores.
+- 👤 **Profile**: Track your progress and scores (coming soon).
+- 🔐 **Authentication**: Secure login/signup powered by Supabase.
+- 🌐 **Responsive UI**: Cyber‑themed design with glowing text and icons.
 
 ---
 
 ## 🛠️ Tech Stack
-
-| Tool | Purpose |
-|------|---------|
-| React + TypeScript | Core framework |
-| Vite | Fast bundler |
-| TailwindCSS | Styling |
-| Radix UI | Accessible UI components |
-| Supabase | Authentication & backend |
-| Lucide React | Icons |
-| GitHub Pages | Deployment |
+- **Frontend**: [Streamlit](https://streamlit.io/)  
+- **Backend**: [Supabase](https://supabase.com/) (Auth + Database)  
+- **Language**: Python  
+- **Database**: PostgreSQL (via Supabase)  
 
 ---
 
-## 📁 Project Structure
+## 📂 Project Structure
 Cyber-Guardian/
 ├── src/
-│   ├── components/        ← Scenario components (Phishing, IoT, Social Engineering, Leaderboard, etc.)
-│   ├── assets/            ← Images, icons, static files
-│   ├── styles/            ← Tailwind + custom CSS
-│   ├── utils/             ← Helper functions
-│   ├── App.tsx            ← Main app entry
-│   └── index.tsx          ← React DOM entry
-├── dist/                  ← Production build output
-├── package.json           ← Dependencies & scripts
-├── tsconfig.json          ← TypeScript config
-├── vite.config.ts         ← Vite config
-└── README.md              ← Documentation
+│── app.py            ← Main Streamlit app
+│── requirements.txt  ← Dependencies
+│── README.md         ← Project info
+│── .streamlit/       ← Streamlit config (optional)
+└──  assets/           ← Images, icons, or static files
+---
+
+Code
 
 ---
 
-## 🚀 Run Locally
-# 1. Clone the repo
-git clone https://github.com/Udayasri527/Cyber-Guardian.git
-cd Cyber-Guardian
+## ⚡ Getting Started
 
-# 2. Install dependencies
-npm install
+### 1. Clone the repo
+```bash
+git clone https://github.com/Udayasri527/remix-of-cyber-guardian-arena.git
+cd remix-of-cyber-guardian-arena
+2. Install dependencies
+bash
+pip install -r requirements.txt
+3. Set up Supabase
+Create a Supabase project.
 
-# 3. Run the app locally
-npm run dev
+Add a scores table with columns: id, email, score, created_at.
 
-# 4. Build for production
-npm run build
+Enable email/password auth.
 
-# 5. Deploy to GitHub Pages
-npm run deploy
-## 👩‍💻 Author
-**Udayasri**
+Add your SUPABASE_URL and SUPABASE_KEY to environment variables.
+
+4. Run the app
+bash
+streamlit run app.py
+📸 Screenshots
+Homepage with cyber background and glowing hero text
+
+Quiz interface
+
+Leaderboard view
+
+📌 Roadmap
+Add Profile page with past scores
+
+Add more quiz questions
+
+Add animated particle effects for UI
+
+👩‍💻 Author
+Udayasri — B.Tech Computer Science student
 [![GitHub](https://img.shields.io/badge/GitHub-Udayasri527-black?logo=github)](https://github.com/Udayasri527)
