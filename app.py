@@ -98,12 +98,24 @@ def play_game():
 # --- Leaderboard ---
 def show_leaderboard():
     st.header("🏆 Leaderboard")
-    data = supabase.table("scores").select("*").order("score", desc=True).limit(10).execute()
-    if data.data:
-        for row in data.data:
-            st.write(f"{row['email']} → {row['score']} points")
-    else:
-        st.info("No scores yet.")
+    try:
+        # Try to fetch scores from Supabase
+        data = supabase.table("scores").select("*").order("score", desc=True).limit(10).execute()
+
+        # If data exists, display it
+        if data and hasattr(data, "data") and data.data:
+            for row in data.data:
+                email = row.get("email", "Unknown")
+                score = row.get("score", "N/A")
+                st.write(f"{email} → {score} points")
+        else:
+            st.info("No scores yet. Play the game to appear on the leaderboard!")
+
+    except Exception as e:
+        # Graceful error handling
+        st.error("⚠️ Unable to load leaderboard. Please check if the 'scores' table exists in Supabase.")
+        st.caption(f"Debug info: {e}")
+
 
 # --- Homepage Features with Buttons ---
 col1, col2, col3 = st.columns(3)
