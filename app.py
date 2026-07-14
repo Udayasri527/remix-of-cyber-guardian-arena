@@ -76,7 +76,15 @@ questions = [
     {"q": "What is phishing?", "options": ["A cyber attack", "A sport", "A cooking style"], "answer": "A cyber attack"},
     {"q": "Strong passwords should include?", "options": ["Only letters", "Letters, numbers & symbols", "Your name"], "answer": "Letters, numbers & symbols"},
     {"q": "What does HTTPS mean?", "options": ["Secure website", "Unsecure website", "Gaming site"], "answer": "Secure website"},
+    {"q": "Which of these is a common malware type?", "options": ["Trojan", "Soccer", "Pizza"], "answer": "Trojan"},
+    {"q": "Two-factor authentication (2FA) adds what?", "options": ["Extra security layer", "More passwords to remember", "Nothing important"], "answer": "Extra security layer"},
+    {"q": "Which of these is safest to click?", "options": ["Link from unknown email", "Bank website typed manually", "Pop-up ad"], "answer": "Bank website typed manually"},
+    {"q": "What is ransomware?", "options": ["Software that locks files until payment", "Free antivirus", "A firewall"], "answer": "Software that locks files until payment"},
+    {"q": "Which of these is a secure practice?", "options": ["Sharing passwords with friends", "Using public Wi-Fi without VPN", "Regularly updating software"], "answer": "Regularly updating software"},
+    {"q": "What does a firewall do?", "options": ["Blocks unauthorized access", "Cooks food", "Stores passwords"], "answer": "Blocks unauthorized access"},
+    {"q": "Which of these is a sign of a phishing email?", "options": ["Urgent request for personal info", "Email from your professor", "Newsletter you subscribed to"], "answer": "Urgent request for personal info"}
 ]
+
 
 def play_game():
     st.header("🎮 Cyber Guardian Arena Quiz")
