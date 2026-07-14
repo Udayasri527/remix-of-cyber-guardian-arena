@@ -82,22 +82,19 @@ def play_game():
     st.header("🎮 Cyber Guardian Arena Quiz")
     st.session_state.score = 0
 
-    # Loop through all questions
     for i, q in enumerate(questions):
         st.write(f"Q{i+1}: {q['q']}")
         choice = st.radio(
             "Choose:",
             q["options"],
-            index=None,   # <-- prevents auto-selection
+            index=None,   # prevents auto-selection
             key=f"q{i}"
         )
         if choice == q["answer"]:
             st.session_state.score += 1
 
-    # Show final score
     st.success(f"Your score: {st.session_state.score}")
 
-    # Save score to Supabase if user is logged in
     if st.session_state.user:
         try:
             supabase.table("scores").insert({
@@ -112,10 +109,7 @@ def play_game():
 def show_leaderboard():
     st.header("🏆 Leaderboard")
     try:
-        # Try to fetch scores from Supabase
         data = supabase.table("scores").select("*").order("score", desc=True).limit(10).execute()
-
-        # If data exists, display it
         if data and hasattr(data, "data") and data.data:
             for row in data.data:
                 email = row.get("email", "Unknown")
@@ -123,22 +117,76 @@ def show_leaderboard():
                 st.write(f"{email} → {score} points")
         else:
             st.info("No scores yet. Play the game to appear on the leaderboard!")
-
     except Exception as e:
-        # Graceful error handling
         st.error("⚠️ Unable to load leaderboard. Please check if the 'scores' table exists in Supabase.")
         st.caption(f"Debug info: {e}")
 
+# --- Profile Page ---
+def show_profile():
+    st.header("👤 My Profile")
 
-# --- Homepage Features with Buttons ---
-# --- Homepage Features with Buttons ---
+    if st.session_state.user:
+        user_email = st.session_state.user.user.email
+
+        col1, col2 = st.columns([1, 3])
+        with col1:
+            st.image("https://img.icons8.com/fluency/96/user-shield.png", width=80)
+        with col2:
+            st.write(f"**Email:** {user_email}")
+
+        try:
+            data = supabase.table("scores").select("*").eq("email", user_email).order("created_at", desc=True).execute()
+            if data and hasattr(data, "data") and data.data:
+                st.subheader("📊 My Scores")
+                st.table(data.data)
+                st.write(f"**Total Games Played:** {len(data.data)}")
+                best_score = max(row.get("score", 0) for row in data.data)
+                st.markdown(f"🏅 **Highest Score:** {best_score}")
+            else:
+                st.info("No scores recorded yet. Play the quiz to add your first score!")
+        except Exception as e:
+            st.error("⚠️ Unable to load profile details.")
+            st.caption(f"Debug info: {e}")
+    else:
+        st.warning("You need to log in to view your profile.")
+
+# --- Compete Page ---
+def show_compete():
+    st.header("⚔️ Compete")
+
+    if st.session_state.user:
+        user_email = st.session_state.user.user.email
+        try:
+            data = supabase.table("scores").select("*").order("score", desc=True).execute()
+            if data and hasattr(data, "data") and data.data:
+                st.subheader("🏆 Global Leaderboard")
+                st.table(data.data)
+
+                user_scores = [row for row in data.data if row.get("email") == user_email]
+                if user_scores:
+                    best_score = max(row.get("score", 0) for row in user_scores)
+                    rank = next((i+1 for i, row in enumerate(data.data) if row.get("email") == user_email), None)
+                    st.markdown(f"🎯 **Your Best Score:** {best_score}")
+                    if rank:
+                        st.markdown(f"🥇 **Your Current Rank:** #{rank}")
+                else:
+                    st.info("You haven’t played yet. Play the quiz to join the competition!")
+            else:
+                st.info("No competition data yet. Be the first to play!")
+        except Exception as e:
+            st.error("⚠️ Unable to load competition details.")
+            st.caption(f"Debug info: {e}")
+    else:
+        st.warning("You need to log in to view competition results.")
+
+# --- Homepage Buttons ---
 col1, col2, col3 = st.columns(3)
 with col1:
     if st.button("🎮 Play"):
         st.session_state.page = "Play"
 with col2:
-    if st.button("⚔️ Compete"):   # ✅ fixed label
-        st.session_state.page = "Complete"
+    if st.button("⚔️ Compete"):
+        st.session_state.page = "Compete"
 with col3:
     if st.button("👤 Profile"):
         st.session_state.page = "Profile"
@@ -149,14 +197,14 @@ st.success("👉 Use the sidebar to Login/Signup and start playing!")
 # --- Sidebar UI ---
 if st.session_state.user:
     st.sidebar.success(f"Logged in as {st.session_state.user.user.email}")
-    choice = st.sidebar.radio("Menu", ["Play Game", "Leaderboard", "Profile", "Complete", "Logout"])
+    choice = st.sidebar.radio("Menu", ["Play Game", "Leaderboard", "Profile", "Compete", "Logout"])
     if choice == "Play Game":
         st.session_state.page = "Play"
     elif choice == "Leaderboard":
         st.session_state.page = "Leaderboard"
     elif choice == "Profile":
         st.session_state.page = "Profile"
-    elif choice == "Complete":
+    elif choice == "Compete":
         st.session_state.page = "Compete"
     elif choice == "Logout":
         st.session_state.user = None
@@ -172,85 +220,4 @@ else:
     if st.sidebar.button("Signup"):
         signup(email, password)
 
-# --- Page Routing ---
-if st.session_state.page == "Play":
-    play_game()
-elif st.session_state.page == "Leaderboard":
-    show_leaderboard()
-elif st.session_state.page == "Profile":
-    show_profile()   # ✅ now calls your profile function
-elif st.session_state.page == "Complete":
-    show_complete()   # ✅ now calls your compete function
-
-
-def show_profile():
-    st.header("👤 My Profile")
-
-    if st.session_state.user:
-        user_email = st.session_state.user.user.email
-
-        # Layout: avatar + email side by side
-        col1, col2 = st.columns([1, 3])
-        with col1:
-            st.image(
-                "https://img.icons8.com/fluency/96/user-shield.png",  # cyber‑themed avatar
-                width=80
-            )
-        with col2:
-            st.write(f"**Email:** {user_email}")
-
-        # Fetch scores from Supabase
-        try:
-            data = supabase.table("scores").select("*").eq("email", user_email).order("created_at", desc=True).execute()
-
-            if data and hasattr(data, "data") and data.data:
-                st.subheader("📊 My Scores")
-                st.table(data.data)  # shows all past scores in a table
-
-                # Extra: show total games played
-                st.write(f"**Total Games Played:** {len(data.data)}")
-
-            else:
-                st.info("No scores recorded yet. Play the quiz to add your first score!")
-
-        except Exception as e:
-            st.error("⚠️ Unable to load profile details.")
-            st.caption(f"Debug info: {e}")
-
-    else:
-        st.warning("You need to log in to view your profile.")
-def show_complete():
-    st.header("⚔️ Compete")
-
-    if st.session_state.user:
-        user_email = st.session_state.user.user.email
-
-        # Fetch all scores from Supabase
-        try:
-            data = supabase.table("scores").select("*").order("score", desc=True).execute()
-
-            if data and hasattr(data, "data") and data.data:
-                st.subheader("🏆 Global Leaderboard")
-                st.table(data.data)  # shows all players' scores
-
-                # Highlight current user's rank
-                user_scores = [row for row in data.data if row.get("email") == user_email]
-                if user_scores:
-                    best_score = max(row.get("score", 0) for row in user_scores)
-                    rank = next((i+1 for i, row in enumerate(data.data) if row.get("email") == user_email), None)
-
-                    st.markdown(f"🎯 **Your Best Score:** {best_score}")
-                    if rank:
-                        st.markdown(f"🥇 **Your Current Rank:** #{rank}")
-                else:
-                    st.info("You haven’t played yet. Play the quiz to join the competition!")
-
-            else:
-                st.info("No competition data yet. Be the first to play!")
-
-        except Exception as e:
-            st.error("⚠️ Unable to load competition details.")
-            st.caption(f"Debug info: {e}")
-
-    else:
-        st.warning("You need to log in to view competition results.")
+#
