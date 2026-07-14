@@ -136,7 +136,7 @@ with col1:
     if st.button("🎮 Play"):
         st.session_state.page = "Play"
 with col2:
-    if st.button("🏆 Compete"):
+    if st.button("🏆 Complete"):
         st.session_state.page = "Leaderboard"
 with col3:
     if st.button("👤 Profile"):
