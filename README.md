@@ -25,13 +25,15 @@ Players can **log in, play quizzes, compete on the leaderboard, and track their 
 ---
 
 ## 📂 Project Structure
+```
 Cyber-Guardian/
 ├── src/
-│── app.py            ← Main Streamlit app
-│── requirements.txt  ← Dependencies
-│── README.md         ← Project info
-│── .streamlit/       ← Streamlit config (optional)
-└──  assets/           ← Images, icons, or static files
+│   ├── app.py              ← Main Streamlit app
+│   ├── requirements.txt    ← Dependencies
+│   └── README.md           ← Project info
+├── .streamlit/             ← Streamlit config (optional)
+└── assets/                 ← Images, icons, or static files
+
 ---
 
 Code
