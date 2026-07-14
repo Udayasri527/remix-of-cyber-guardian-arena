@@ -232,3 +232,11 @@ else:
 if st.session_state.page == "Play":
     play_game()
 elif st.session_state.page == "Leaderboard":
+    show_leaderboard()
+elif st.session_state.page == "Profile":
+    show_profile()
+elif st.session_state.page == "Compete":
+    show_compete()
+else:
+    # Default landing page (Hero + buttons)
+    st.info("👆 Choose Play, Compete, or Profile to get started!")
