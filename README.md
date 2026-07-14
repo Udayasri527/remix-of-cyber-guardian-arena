@@ -44,10 +44,10 @@ Code
 ```bash
 git clone https://github.com/Udayasri527/remix-of-cyber-guardian-arena.git
 cd remix-of-cyber-guardian-arena
-2. Install dependencies
+### 2. Install dependencies
 bash
 pip install -r requirements.txt
-3. Set up Supabase
+### 3. Set up Supabase
 Create a Supabase project.
 
 Add a scores table with columns: id, email, score, created_at.
@@ -56,7 +56,7 @@ Enable email/password auth.
 
 Add your SUPABASE_URL and SUPABASE_KEY to environment variables.
 
-4. Run the app
+### 4. Run the app
 bash
 streamlit run app.py
 📸 Screenshots
